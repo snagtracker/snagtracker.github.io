@@ -1,0 +1,662 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@mixin keyframes( $animationName ) {
+  @-webkit-keyframes #{$animationName} { @content; }
+     @-moz-keyframes #{$animationName} { @content; }
+          @keyframes #{$animationName} { @content; }
+}
+
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+     -moz-animation: #{$str};
+          animation: #{$str};
+}
+
+@mixin transform($transforms) {
+  -webkit-transform: $transforms;
+     -moz-transform: $transforms;
+      -ms-transform: $transforms;
+          transform: $transforms;
+}
+@mixin rotate ($deg) { @include transform(rotate(#{$deg}deg)); }
+@mixin scale($scale) { @include transform(scale($scale)); }
+@mixin translate ($x, $y) { @include transform(translate($x, $y)); }
+@mixin transform-origin ($origin) {
+  -webkit-transform-origin: $origin;
+     -moz-transform-origin: $origin;
+      -ms-transform-origin: $origin;
+          transform-origin: $origin;
+}
+
+
+@charset "utf-8";
+
+$styellow: #ffee11;
+$stblue: #00bbee;
+$stpink: #ff99cc;
+$stgreen: #00aa99;
+$stred: #e90030;
+
+
+$stbrown: #d2691e; /* chocolate */
+
+$body-bg: #555;
+
+$brand-primary: darken($stblue, 5%);
+$brand-primary-color: #000;
+$panel-primary-heading-bg: $styellow;
+$panel-primary-border: darken(adjust-hue($panel-primary-heading-bg, -10%), 7%);
+$panel-primary-text: $brand-primary-color;
+// $btn-primary-color:  $brand-primary-color;
+
+$brand-success: $stgreen;
+$brand-info:    $styellow;
+$brand-warning: $stpink;
+$brand-danger:  $stred;
+
+$state-success-text:  darken($brand-success, 30%);
+$state-success-bg:   lighten($brand-success, 10%);
+$state-info-text:  darken($brand-info, 30%);
+$state-info-bg:   lighten($brand-info, 10%);
+$state-warning-text:  darken($brand-warning, 30%);
+$state-warning-bg:   lighten($brand-warning, 10%);
+$state-danger-text:  darken($brand-danger, 30%);
+$state-danger-bg:   lighten($brand-danger, 10%);
+
+$navbar-height: 70px;
+
+$font-size-base: 16px;
+
+@import "bootstrap";
+
+@mixin well-variant($color) {
+  background-color: lighten($color, 10%);
+  border: 1px solid adjust-hue($color, -10);
+}
+.well-primary { @include well-variant($brand-primary); }
+.well-success { @include well-variant($brand-success); }
+.well-info { @include well-variant($brand-info); }
+.well-warning { @include well-variant($brand-warning); }
+.well-danger { @include well-variant($brand-danger); }
+
+$navbar-font-size: $navbar-height * 0.7;
+
+@include keyframes(logogrotate) {
+  0% { @include rotate(0); }
+  100% { @include rotate(10deg); }
+}
+.navbar-brand {
+  font-size: $navbar-font-size;
+  font-weight: bold;
+  letter-spacing: -$navbar-font-size / 16;
+  color: white !important;
+  span {
+    letter-spacing: -$navbar-font-size / 16 * 4;
+    &:first-child {
+      display: inline-block;
+      @include rotate(10deg);
+      @include animation(logogrotate 2s normal forwards ease-in-out);
+    }
+  }
+}
+
+html, body {
+  height: 100%;
+  height: 100vh;
+
+  font-family: $font-family-sans-serif;
+}
+
+body {
+    padding-top: $navbar-height;
+}
+
+.container {
+  > h1, >h2, >h3, > p {
+    color: #efefef;
+  }
+
+  > .row, > .well, > h1, > h2 {
+    margin-top: 5%;
+  }
+}
+
+footer {
+  color: #efefef;
+}
+
+// @include keyframes(stcircleanimated) {
+//    0%   { border-radius: 75% 100% 75% 100% }
+//   50%   { border-radius: 100% 75% 100% 75% }
+// }
+.stcircle {
+  display: inline-block;
+  border-style: solid;
+  border-color: black;
+  border-radius: 100%;
+  background: white;
+  text-align: center;
+  &.fa {
+    color: black;
+  }
+  // &.animated {
+  //   border-radius: 75% 100% 75% 100%;
+  //   @include animation(stcircleanimated 2s infinite forwards);
+  // }
+}
+$stcircleborderfraction: 2/16;
+@mixin st-circle($size) {
+  width: $size;
+  height: $size;
+  border-width: $size * $stcircleborderfraction;
+  &.fa {
+    font-size: 0.65 * $size * (1 - 2 * $stcircleborderfraction);
+    &, &:before {
+      line-height: $size * (1 - 2 * $stcircleborderfraction);
+    }
+  }
+}
+.stcircle-xs { @extend .stcircle; @include st-circle(20px) }
+.stcircle-sm { @extend .stcircle; @include st-circle(40px) }
+.stcircle-md { @extend .stcircle; @include st-circle(80px) }
+.stcircle-lg { @extend .stcircle; @include st-circle(160px) }
+.stcircle-xl { @extend .stcircle; @include st-circle(320px) }
+
+@for $i from 0 through $grid-columns {
+  .stcircle-#{$i} {
+    @extend .stcircle;
+    @include st-circle($i * 40px);
+  }
+  span.stcircle-#{$i} {
+    vertical-align: text-bottom;
+  }
+  .panel-heading > .stcircle-#{$i} {
+    margin-top: -0.5 * $i * 40px;
+    margin-bottom: 0.1 * $i * 40px;
+  }
+  .panel.stcircle-#{$i}-panel-spacer {
+    margin-top: 0.5 * $i * 40px;
+  }
+
+  .well > .stcircle-#{$i} {
+    margin-left: -1px * (19 + 0.50 * $i * 40); // 19 = padding of .well-lg
+  }
+  .well.stcircle-#{$i}-well-spacer {
+    margin-left: 0.5 * $i * 40px;
+  }
+}
+
+//
+// landing page
+//
+
+// detail position and size on main image
+$viewX: 0.45;
+$viewY: 0.12;
+$viewS: 0.25; // size
+
+@include keyframes(ipadappear) {
+  0%,
+  10%,
+  100% {
+    opacity: 0;
+    @include transform(translate3d(-3000px, 0, 0));
+  }
+
+  16%, 90% {
+    opacity: 1;
+    @include transform(none);
+  }
+}
+
+// @include keyframes(blurmainpic) {
+//   0%, 15%, 100% { -webkit-filter: blur(0px); }
+//   35%, 98% { -webkit-filter: blur(3px); }
+// }
+// @include animation(logogrotate 2s normal forwards ease-in-out);
+
+@include keyframes(ipadmapappear) {
+  0%, 20%, 100% {
+    @include scale(1);
+    background-size: 150%;
+    background-position: -10% -8%;
+  }
+  // 10% { background-size: 125%; background-position: 10% 20%; }
+  30%, 95% { background-size: 325%; background-position: 8% 17%; }
+
+  44%{
+    @include scale(1);
+  }
+  46%, 99% {
+    @include scale(0.5);
+  }
+}
+
+@-webkit-keyframes blurmainpic {
+  0%,
+  50%, 100% { -webkit-filter: blur(0px); }
+  60%, 98%  { -webkit-filter: blur(3px); }
+}
+
+@include keyframes (blurmainpicdetail) {
+  0%, 100% {
+    opacity: 0;
+    left: 100% * $viewX;
+    top: 100% * $viewY;
+    width: 100% * $viewS;
+    height: 100% * $viewS;
+  }
+
+  45% { opacity: 0; }
+  50% { opacity: 1; }
+
+  56% {
+    left: 100% * $viewX;
+    top: 100% * $viewY;
+    width: 100% * $viewS;
+    height: 100% * $viewS;
+  }
+
+  57% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+    left: 20%;
+    top: 50%;
+    width: 10%;
+    height: 10%;
+  }
+}
+
+@include keyframes (blurmainpicdetailflash) {
+  0%, 50%, 56%, 100% {
+    box-shadow: 0 0 0 transparent;
+    background-color: transparent;
+  }
+  51%, 52% {
+    background-color: white;
+    box-shadow: 0 0 20px white;
+  }
+  53% {
+    background-color: transparent;
+  }
+}
+
+@include keyframes(ipadmarkerappear) {
+  0%, 100% {
+    opacity: 0;
+    @include scale(1);
+  }
+
+  35% {
+    opacity: 0;
+    @include scale(1);
+  }
+  36%, 90% { opacity: 1; }
+
+  37.5% { @include scale(1.2); }
+  40% { @include scale(1); }
+}
+
+@include keyframes(ipadphotoappear) {
+  0%, 55% { opacity: 0; }
+  58%, 100% { opacity: 1; }
+}
+
+@include keyframes(ipadtext1appear) {
+  0%, 60% { width: 0; }
+  65%, 100% { width: 100%; }
+}
+@include keyframes(ipadtext2appear) {
+  0%, 67% { width: 0; }
+  72%, 100% { width: 100%; }
+}
+@include keyframes(ipadtext3appear) {
+  0%, 70% { width: 0; }
+  75%, 100% { width: 100%; }
+}
+@include keyframes(ipadtext4appear) {
+  0%, 73% { width: 0; }
+  78%, 100% { width: 100%; }
+}
+
+@include keyframes(ipadbtnclick) {
+  0%, 80%, 85%, 100% {
+      border-left-color: #eee;
+       border-top-color: #eee;
+     border-right-color: #ccc;
+    border-bottom-color: #ccc;
+    background-color: white;
+  }
+  80.1%, 84.9% {
+      border-left-color: #ccc;
+       border-top-color: #ccc;
+     border-right-color: #eee;
+    border-bottom-color: #eee;
+    background-color: #f8f8f8;
+  }
+}
+
+@-webkit-keyframes reportappear {
+  0%, 81% {
+    opacity: 0;
+    right: 80%;
+    @include scale(0.3);
+    border: 0;
+  }
+  82% { opacity: 1; }
+  85%, 100% {
+    right: -15%;
+    @include scale(1);
+    border: 1px solid #ccc;
+  }
+}
+
+.centerwrapper {
+  position: relative;
+  margin: $navbar-height/2 auto;
+  width: 66%;
+
+  .intro {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100% / (4/3); // fixed aspect ratio of 4:3
+    position: relative;
+
+    .mainpic {
+      position: absolute;
+      left: 0;
+      top: 0;
+
+      width: 100%;
+      height: auto;
+
+      outline: 1px solid #888;
+
+      -webkit-animation: blurmainpic 10s linear infinite;
+    }
+
+    .mainpicdetail, .mainpicdetailflash {
+      position: absolute;
+      left: 100% * $viewX;
+      top: 100% * $viewY;
+      width: 100% * $viewS;
+      height: 100% * $viewS;
+    }
+
+    .mainpicdetail {
+      background-image: url("http://2.bp.blogspot.com/_2kZkxw4EJuw/TABxNyFoFSI/AAAAAAAAADo/5pnleeT3oA0/s1600/IMG_4173.JPG");
+      background-size: 100% / $viewS;
+      background-position: (100% * (1 - (1 - $viewX - $viewS) / (1 - $viewS))) (100% * (1 - (1 - $viewY - $viewS) / (1 - $viewS)));
+
+      outline: 2px solid white;
+      opacity: 1;
+      @include animation(blurmainpicdetail 10s linear infinite)
+    }
+
+    .mainpicdetailflash {
+      background-color: transparent;
+      @include animation(blurmainpicdetailflash 10s linear infinite)
+    }
+
+    .ipadflash {
+      position: absolute;
+      left: -20.5%;
+      top: 44.5%;
+      width: 6%;
+      height: 8%;
+      border-radius: 100%;
+      background: rgba(255,255,255,0.6);
+      box-shadow: 0 0 20px white;
+      @include animation(blurmainpicdetailflash 10s linear infinite);
+    }
+    .ipad {
+      position: absolute;
+      left: -20%;
+      bottom: 5%;
+      width: 50%;
+      height: 50%;
+
+      background: black;
+
+      border-radius: 10%;
+      @include animation(ipadappear 10s linear infinite);
+
+      .ipadscreen {
+        text-align: left;
+        position: absolute;
+        left: 10%;
+        top: 10%;
+        width: 80%;
+        height: 80%;
+        background: white;
+
+        .ipadmap {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url(http://doa.snagtracker.com:5984/free-majcdh/plan_2_1/1%2f0%2f0.png);
+          background-size: 325%;
+          background-position: 8% 17%;
+          background-repeat: no-repeat;
+          @include scale(0.5);
+          @include transform-origin(left top);
+          @include animation(ipadmapappear 10s linear infinite);
+
+          .ipadmarker {
+            opacity: 1;
+            text-align: center;
+            font-size: 3em;
+            font-size: 8vw;
+            @include animation(ipadmarkerappear 10s linear infinite);
+          }
+        }
+
+        .ipadphoto {
+          position: absolute;
+          left: 50%;
+          top: 0;
+          width: 50%;
+          height: 50%;
+          background-image: url("http://2.bp.blogspot.com/_2kZkxw4EJuw/TABxNyFoFSI/AAAAAAAAADo/5pnleeT3oA0/s1600/IMG_4173.JPG");
+          background-size: 100% / $viewS;
+          background-position: (100% * (1 - (1 - $viewX - $viewS) / (1 - $viewS))) (100% * (1 - (1 - $viewY - $viewS) / (1 - $viewS)));
+          @include animation(ipadphotoappear 10s linear infinite);
+        }
+
+        .ipadtextcontainer {
+          position: absolute;
+          left: 0%;
+          top: 50%;
+          width: 50%;
+          height: 50%;
+          background: white;
+          @include animation(ipadphotoappear 10s linear infinite);
+
+          .ipadtext1, .ipadtext2, .ipadtext3, .ipadtext4 {
+            padding-top: 0.25vw;
+            padding-left: 0.5vw;
+            font-family: "Courier";
+            font-size: 10px;
+            font-size: 0.8vw;
+            overflow: hidden;
+            width: 100%;
+            white-space: nowrap;
+          }
+          .ipadtext1 {
+            padding-top: 0.5vw;
+            padding-left: 1vw;
+            font-weight: bold;
+            text-decoration: underline;
+            @include animation(ipadtext1appear 10s linear infinite);
+          }
+          .ipadtext2 { @include animation(ipadtext2appear 10s linear infinite); }
+          .ipadtext3 { @include animation(ipadtext3appear 10s linear infinite); }
+          .ipadtext4 { @include animation(ipadtext4appear 10s linear infinite); }
+        }
+
+        .ipadbuttoncontainer {
+          position: absolute;
+          right: 4%;
+          bottom: 3%;
+          background: white;
+          font-size: 20px;
+          font-size: 1.6vw;
+
+          @include animation(ipadphotoappear 10s linear infinite);
+
+          span {
+            display: inline-block;
+            padding: 0.3vw;
+            border: 3px solid #ddd ;
+            @include animation(ipadbtnclick 10s linear infinite);
+          }
+        }
+      }
+
+      .ipadhomebutton {
+        position: absolute;
+        right: 2%;
+        top: 46%;
+
+        width: 6%;
+        height: 8%;
+
+        border-radius: 100%;
+        background: #ddd;
+      }
+    }
+
+    .report {
+      position: absolute;
+      overflow: hidden;
+      width: 31.5%; /* 21 * 1,25 */
+      height: 59.4%; /* A4 size, adjusted for 4:3 ratio (29.7 * 4 / 3) */
+      background: white;
+      border: 1px solid #ccc;
+
+      text-align: left;
+
+      right: -15%;
+      bottom: 5%;
+
+      font-size: 14px;
+      font-size: 1.5vw;
+
+      @include animation(reportappear 10s linear infinite);
+
+      h2 {
+        text-align: center;
+        font-size: 150%;
+        padding: 1vw;
+        margin: 1vw;
+      }
+      p {
+        padding-left: 1vw;
+        line-height: 0.75vw;
+      }
+      b {
+        line-height: 1vw;
+        text-decoration: underline;
+      }
+      .ipadphoto {
+        position: relative;
+        left: 0;
+        top: 0;
+        width: 75%;
+        padding-bottom: 56.25%;
+        height: 0;
+        margin: 1vw auto;
+        background-image: url("http://2.bp.blogspot.com/_2kZkxw4EJuw/TABxNyFoFSI/AAAAAAAAADo/5pnleeT3oA0/s1600/IMG_4173.JPG");
+        background-size: 100% / $viewS;
+        background-position: (100% * (1 - (1 - $viewX - $viewS) / (1 - $viewS))) (100% * (1 - (1 - $viewY - $viewS) / (1 - $viewS)));
+      }
+    }
+  }
+}
+
+
+
+// FROM https://github.com/IronSummitMedia/startbootstrap-modern-business/blob/gh-pages/css/modern-business.css
+
+.img-portfolio {
+    margin-bottom: 30px;
+}
+
+.img-hover:hover {
+    opacity: 0.8;
+}
+
+/* Home Page Carousel */
+
+header.carousel {
+    height: 50%;
+}
+
+header.carousel .item,
+header.carousel .item.active,
+header.carousel .carousel-inner {
+    height: 100%;
+}
+
+header.carousel .fill {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+}
+
+/* 404 Page Styles */
+
+.error-404 {
+    font-size: 100px;
+}
+
+/* Pricing Page Styles */
+
+.price {
+    display: block;
+    font-size: 50px;
+    line-height: 50px;
+}
+
+.price sup {
+    top: -20px;
+    left: 2px;
+    font-size: 20px;
+}
+
+.period {
+    display: block;
+    font-style: italic;
+}
+
+/* Footer Styles */
+
+footer {
+    margin: 50px 0;
+}
+
+/* Responsive Styles */
+
+@media(max-width:991px) {
+    .customer-img,
+    .img-related {
+        margin-bottom: 30px;
+    }
+}
+
+@media(max-width:767px) {
+    .img-portfolio {
+        margin-bottom: 15px;
+    }
+
+    header.carousel .carousel {
+        height: 70%;
+    }
+}
