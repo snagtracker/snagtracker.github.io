@@ -388,7 +388,7 @@ $viewS: 0.25; // size
     }
 
     .mainpicdetail {
-      background-image: url("http://2.bp.blogspot.com/_2kZkxw4EJuw/TABxNyFoFSI/AAAAAAAAADo/5pnleeT3oA0/s1600/IMG_4173.JPG");
+      background-image: url("/images/harbor.jpg");
       background-size: 100% / $viewS;
       background-position: (100% * (1 - (1 - $viewX - $viewS) / (1 - $viewS))) (100% * (1 - (1 - $viewY - $viewS) / (1 - $viewS)));
 
@@ -440,7 +440,7 @@ $viewS: 0.25; // size
           top: 0;
           width: 100%;
           height: 100%;
-          background-image: url(http://doa.snagtracker.com:5984/free-majcdh/plan_2_1/1%2f0%2f0.png);
+          background-image: url(/images/harbormap.png);
           background-size: 325%;
           background-position: 8% 17%;
           background-repeat: no-repeat;
@@ -463,7 +463,7 @@ $viewS: 0.25; // size
           top: 0;
           width: 50%;
           height: 50%;
-          background-image: url("http://2.bp.blogspot.com/_2kZkxw4EJuw/TABxNyFoFSI/AAAAAAAAADo/5pnleeT3oA0/s1600/IMG_4173.JPG");
+          background-image: url("/images/harbor.jpg");
           background-size: 100% / $viewS;
           background-position: (100% * (1 - (1 - $viewX - $viewS) / (1 - $viewS))) (100% * (1 - (1 - $viewY - $viewS) / (1 - $viewS)));
           @include animation(ipadphotoappear 10s linear infinite);
@@ -572,7 +572,7 @@ $viewS: 0.25; // size
         padding-bottom: 56.25%;
         height: 0;
         margin: 1vw auto;
-        background-image: url("http://2.bp.blogspot.com/_2kZkxw4EJuw/TABxNyFoFSI/AAAAAAAAADo/5pnleeT3oA0/s1600/IMG_4173.JPG");
+        background-image: url("/images/harbor.jpg");
         background-size: 100% / $viewS;
         background-position: (100% * (1 - (1 - $viewX - $viewS) / (1 - $viewS))) (100% * (1 - (1 - $viewY - $viewS) / (1 - $viewS)));
       }
