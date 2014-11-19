@@ -132,9 +132,13 @@ footer {
   color: $gray;
 }
 
-h1 {
+h1, h2 {
   font-weight: bolder;
   letter-spacing: -0.05em;
+}
+h3, h4 {
+  font-weight: bold;
+  letter-spacing: -0.02em;
 }
 
 // @include keyframes(stcircleanimated) {
