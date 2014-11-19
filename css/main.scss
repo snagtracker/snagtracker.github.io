@@ -39,10 +39,14 @@ $stpink: #ff99cc;
 $stgreen: #00aa99;
 $stred: #e90030;
 
+$body-bg: #fff;
+$text-color: #000;
 
-$stbrown: #d2691e; /* chocolate */
+$font-size-base: 15px;
 
-$body-bg: #555;
+$border-radius-base:        1px;
+$border-radius-large:       2px;
+$border-radius-small:       0.5px;
 
 $brand-primary: darken($stblue, 5%);
 $brand-primary-color: #000;
@@ -66,14 +70,17 @@ $state-danger-text:  darken($brand-danger, 30%);
 $state-danger-bg:   lighten($brand-danger, 10%);
 
 $navbar-height: 70px;
-
-$font-size-base: 16px;
+$navbar-font-size: $navbar-height * 0.7;
+$navbar-inverse-link-color:       $body-bg;
+$navbar-inverse-link-hover-color: darken($body-bg, 10%);
+$navbar-inverse-color:            $body-bg;
+$navbar-inverse-bg:               #000;
 
 @import "bootstrap";
 
 @mixin well-variant($color) {
-  background-color: lighten($color, 10%);
-  border: 1px solid adjust-hue($color, -10);
+  background-color: lighten($color, 5%);
+  border: 1px solid darken($color, 5%);
 }
 .well-primary { @include well-variant($brand-primary); }
 .well-success { @include well-variant($brand-success); }
@@ -81,19 +88,17 @@ $font-size-base: 16px;
 .well-warning { @include well-variant($brand-warning); }
 .well-danger { @include well-variant($brand-danger); }
 
-$navbar-font-size: $navbar-height * 0.7;
-
 @include keyframes(logogrotate) {
   0% { @include rotate(0); }
   100% { @include rotate(10deg); }
 }
 .navbar-brand {
   font-size: $navbar-font-size;
-  font-weight: bold;
-  letter-spacing: -$navbar-font-size / 16;
+  font-weight: bolder;
+  letter-spacing: -0.05em;
   color: white !important;
   span {
-    letter-spacing: -$navbar-font-size / 16 * 4;
+    letter-spacing: -0.2em;
     &:first-child {
       display: inline-block;
       @include rotate(10deg);
@@ -114,17 +119,22 @@ body {
 }
 
 .container {
-  > h1, >h2, >h3, > p {
-    color: #efefef;
-  }
-
-  > .jumbotron, > .row, > .well, > h1, > h2 {
+  > .jumbotron, > .row, > .well, > h1, > h2, > .embed-responsive {
     margin-top: 5%;
+
+    &:first-child {
+        margin-top: 1%;
+    }
   }
 }
 
 footer {
-  color: #efefef;
+  color: $gray;
+}
+
+h1 {
+  font-weight: bolder;
+  letter-spacing: -0.05em;
 }
 
 // @include keyframes(stcircleanimated) {
