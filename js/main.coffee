@@ -5,19 +5,30 @@
 $ ->
   return if typeof window.FileReader == 'undefined'
 
-  holder = $('body')
-  holder.on 'dragover', (e) ->
-    holder.addClass 'hover'
+  eventCount = 0
+
+  $('body').on
+    dragover: (e) ->
+      e.preventDefault()
+      e.stopPropagation()
+    dragenter: (e) ->
+      $('#file-upload-progress').modal 'show' if eventCount++ == 0
+      e.preventDefault()
+      e.stopPropagation()
+    dragleave: (e) ->
+      $('#file-upload-progress').modal 'hide' if --eventCount == 0
+      e.preventDefault()
+      e.stopPropagation()
+    drop: (e) ->
+      $('#file-upload-progress').modal 'hide'
+      eventCount = 0
+      e.preventDefault()
+      e.stopPropagation()
+
+  $('#file-upload-progress .modal-dialog').on 'drop', (e) ->
     e.preventDefault()
     e.stopPropagation()
-  holder.on 'dragend', ->
-    holder.removeClass 'hover'
-    e.preventDefault()
-    e.stopPropagation()
-  holder.on 'drop', (e) ->
-    holder.removeClass 'hover'
-    e.preventDefault()
-    e.stopPropagation()
+
     return unless file = e.originalEvent?.dataTransfer?.files[0]
     return alert 'Cancelling upload, file is not a PDF document' unless file.type == 'application/pdf'
     $('#file-upload-progress').modal 'show'
@@ -31,7 +42,7 @@ $ ->
           contentType: file.type
           size:        file.size
         dataType: 'json'
-        url: "http://service.snagtracker.com:8080/tiler"
+        url: "/service/tiler"
         success: (response, textStatus, jqXHR) ->
           # console.log 'SUCCESS', arguments
           if response.ok
