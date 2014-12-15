@@ -1,6 +1,13 @@
 ---
 ---
 
+isDevelopment = window.location.hostname == 'localhost'
+account = (->
+    parts = window.location.hostname.split('.')
+    return 'free' if parts.length != 3 || parts[1] != 'snagtracker'
+    parts[0]
+  )()
+
 # register file drop handler
 $ ->
   return if typeof window.FileReader == 'undefined'
@@ -28,7 +35,8 @@ $ ->
   $('#file-upload-progress .modal-dialog').on
     drop: (e) ->
       return unless file = e.originalEvent?.dataTransfer?.files[0]
-      return alert 'Cancelling upload, file is not a PDF document' unless file.type == 'application/pdf'
+      unless ((file.type || '').length == 0 && file.name.match(/.pdf$/i)) || file.type == 'application/pdf'
+        return alert 'Cancelling upload, file is not a PDF document'
 
       e.preventDefault()
       e.stopPropagation()
@@ -40,18 +48,21 @@ $ ->
           data:
             dataURL:     event.target.result
             name:        file.name
-            contentType: file.type
+            contentType: 'application/pdf'
             size:        file.size
           dataType: 'json'
-          url: "/service/tiler"
+          url: if isDevelopment then 'http://localhost:8080/tiler/mzoiyg/2' else "/service/tiler/#{account}"
           success: (response, textStatus, jqXHR) ->
-            # console.log 'SUCCESS', arguments
             if response.ok
-              parts = response.server.split('.')
-              parts[0] = response.db
-              window.location.href = "https://"+parts.join('.')
+              if isDevelopment
+                console.log response
+              else
+                parts = response.server.split('.')
+                parts[0] = response.db
+                window.location.href = "https://"+parts.join('.')
           error: ->
-            # console.log 'ERROR', arguments
+            if isDevelopment
+              console.log 'ERROR', arguments
           xhr: ->
             xhr = new window.XMLHttpRequest()
             progressElement = $ '#file-upload-progress .progress-bar'
