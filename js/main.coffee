@@ -35,7 +35,7 @@ $ ->
   $('#file-upload-progress .modal-dialog').on
     drop: (e) ->
       return unless file = e.originalEvent?.dataTransfer?.files[0]
-      unless ((file.type || '').length == 0 && file.name.match(/.pdf$/i)) || file.type == 'application/pdf'
+      unless file.name.match(/.pdf$/i) || file.type == 'application/pdf'
         return alert 'Cancelling upload, file is not a PDF document'
 
       e.preventDefault()
