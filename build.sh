@@ -1,0 +1,1 @@
+ jekyll build && scp -r _site/* root@doa.snagtracker.com:/var/www/www && jekyll serve --host 0.0.0.0
